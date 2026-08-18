@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BRL Trainees '26 </title>
+  <link rel="icon" type="image/png" href="BRL_logo_trans.png">
+  <link rel="apple-touch-icon" href="BRL_logo_trans.png">
+  <meta name="description"
+    content="A premium blockchain explorer for BRL Trainees 2026. Each trainee is a cryptographic block in our chain — transparent, verified, and connected.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.6.4/tween.umd.js"></script>
+</head>
+
+<body>
+
+  <section class="hero-section" id="hero">
+    <div class="hero-overlay"></div>
+    <canvas id="chain-canvas-3d"></canvas>
+    <div class="hero-vignette"></div>
+
+    <div class="hero-brand">
+      <img src="BRL_logo_trans.png" alt="Blockchain Research Lab Logo" class="hero-brand-logo">
+      <span class="hero-brand-label">BRL Trainees'26</span>
+    </div>
+
+    <span id="h-total" style="display:none">0</span>
+    <span id="h-integrity" style="display:none" class="integrity-ok">● Secure</span>
+    <span id="h-hashrate" style="display:none">—</span>
+
+    <button id="btn-mine-hero" style="display:none"></button>
+
+    <div class="hero-bottom">
+      <button class="scroll-cue" id="btn-scroll-vault" aria-label="Scroll down">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polyline points="6 9 12 15 18 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <div id="hero-profile-card" class="hero-profile-card hidden">
+      <div class="hpc-card-inner">
+        <div class="hpc-glow"></div>
+        <div class="hpc-avatar-wrap">
+          <img id="hpc-avatar" class="hpc-avatar" alt="Avatar" style="display:none;" />
+          <div id="hpc-avatar-fallback" class="hpc-avatar-fallback"></div>
+        </div>
+        <div class="hpc-name" id="hpc-name"></div>
+        <div class="hpc-meta-row">
+          <span class="hpc-badge" id="hpc-branch"></span>
+          <span class="hpc-github" id="hpc-github"></span>
+        </div>
+        <p id="hpc-about" class="hpc-about"></p>
+        <div class="hpc-hint">Click box to inspect ↗</div>
+      </div>
+    </div>
+
+    <div class="canvas-hud">
+      <button class="hud-pill" id="hud-orbit" title="Pause Rotation" aria-label="Pause Rotation">
+
+        <svg id="hud-orbit-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="6" y="5" width="4" height="14" rx="1.5" fill="currentColor"/>
+          <rect x="14" y="5" width="4" height="14" rx="1.5" fill="currentColor"/>
+        </svg>
+      </button>
+      <button class="hud-pill" id="hud-reset" title="Reset Orientation" aria-label="Reset Orientation">
+
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polyline points="5 9 5 5 9 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <polyline points="19 9 19 5 15 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <polyline points="5 15 5 19 9 19" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <polyline points="19 15 19 19 15 19" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+  </section>
+
+  <main class="vault-section" id="vault">
+
+    <div class="vault-container">
+
+      <div class="vault-header-row">
+        <h2 class="vault-title">BRL Trainees '26</h2>
+        <div class="vault-controls">
+          <div class="search-wrap">
+            <i data-lucide="search" class="search-icon-inline"></i>
+            <input type="text" id="search-input" placeholder="Search members, branch…">
+          </div>
+          <select id="branch-filter" class="branch-select">
+            <option value="all">All Branches</option>
+          </select>
+          <button id="btn-mine-top" style="display:none"></button>
+        </div>
+      </div>
+
+      <div id="rail-nodes" style="display:none"></div>
+
+      <div class="member-table-header">
+        <span class="mth-col mth-member">MEMBER</span>
+        <span class="mth-col mth-branch">BRANCH</span>
+        <span class="mth-col mth-github">GITHUB</span>
+      </div>
+
+      <div class="member-list" id="member-grid">
+
+      </div>
+
+      <div id="empty-state" class="empty-state hidden">
+        <i data-lucide="search-x"></i>
+        <p>No members match your search.</p>
+      </div>
+
+    </div>
+
+  </main>
+
+  <aside id="inspector" class="inspector hidden">
+    <div class="inspector-inner">
+      <button id="inspector-close" class="inspector-close">
+        <i data-lucide="x"></i>
+      </button>
+
+      <div class="insp-avatar-wrap">
+        <img id="insp-avatar" src="" alt="Avatar" class="insp-avatar">
+        <div id="insp-avatar-fallback" class="insp-avatar-fallback">
+          <i data-lucide="user"></i>
+        </div>
+      </div>
+
+      <div class="insp-name-row">
+        <h2 id="insp-name">—</h2>
+        <span id="insp-branch" class="insp-branch-tag">—</span>
+      </div>
+
+      <a id="insp-github" href="#" target="_blank" rel="noopener noreferrer" class="insp-github-btn" title="View GitHub Profile">
+        <svg class="github-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+        </svg>
+        <span id="insp-github-id">@username</span>
+        <svg class="external-arrow" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+      </a>
+
+      <p id="insp-about" class="insp-about">—</p>
+    </div>
+  </aside>
+
+  <div id="backdrop" class="backdrop hidden"></div>
+
+  <div id="miner-modal" class="miner-modal hidden">
+    <div class="miner-inner">
+      <div class="miner-header">
+        <div class="miner-title-row">
+          <i data-lucide="cpu"></i>
+          <h3>Block Miner Terminal</h3>
+        </div>
+        <button id="miner-close" class="inspector-close">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <div id="mine-form-step">
+        <p class="mine-intro">Fill out your profile to generate a valid cryptographic block for the Aethrix chain.</p>
+        <form id="mine-form" onsubmit="event.preventDefault(); startMining();">
+          <div class="form-row-2">
+            <div class="form-field">
+              <label>Full Name *</label>
+              <input type="text" id="f-name" required placeholder="Jane Doe">
+            </div>
+            <div class="form-field">
+              <label>Branch *</label>
+              <input type="text" id="f-branch" required placeholder="CSE-AIML">
+            </div>
+          </div>
+          <div class="form-field">
+            <label>GitHub Username *</label>
+            <input type="text" id="f-github" required placeholder="janedoe">
+          </div>
+          <div class="form-field">
+            <label>Bio <span class="form-hint">(10–200 chars)</span></label>
+            <textarea id="f-bio" required rows="3" placeholder="Tell us about yourself…"></textarea>
+            <span id="bio-count" class="bio-count">0 / 200</span>
+          </div>
+          <button type="submit" class="btn-solid btn-full">
+            <i data-lucide="pickaxe"></i>
+            Generate Block JSON
+          </button>
+        </form>
+      </div>
+
+      <div id="mine-terminal-step" class="hidden">
+        <div class="terminal-box">
+          <div class="terminal-titlebar">
+            <span class="tbar-dot red"></span>
+            <span class="tbar-dot amber"></span>
+            <span class="tbar-dot green"></span>
+            <span class="tbar-name">pow_miner.sh</span>
+          </div>
+          <div id="term-log" class="term-log mono"></div>
+        </div>
+        <div class="mining-pill">
+          <div class="spinner-ring"></div>
+          Mining… Nonce: <strong id="nonce-counter">0</strong>
+        </div>
+      </div>
+
+      <div id="mine-success-step" class="hidden">
+        <div class="success-banner">
+          <i data-lucide="check-circle-2"></i>
+          <div>
+            <strong>Block Mined!</strong>
+            <p>Hash: <span id="suc-hash" class="mono accent-green">—</span></p>
+          </div>
+        </div>
+
+        <div class="steps-guide">
+          <h4>How to Join</h4>
+          <ol>
+            <li>Download your JSON file below.</li>
+            <li>Fork the repo and add it to <code>members/</code>.</li>
+            <li>Commit: <code id="suc-commit">member: add username</code></li>
+            <li>Open a Pull Request → Review → Merge 🎉</li>
+          </ol>
+        </div>
+
+        <div class="json-preview-box">
+          <div class="json-preview-header">
+            <span id="suc-filename" class="mono">—</span>
+            <button class="copy-btn" onclick="copyId('json-preview-code')">
+              <i data-lucide="copy"></i> Copy
+            </button>
+          </div>
+          <pre id="json-preview-code" class="mono json-code"></pre>
+        </div>
+
+        <div class="success-actions">
+          <button id="dl-json" class="btn-solid">
+            <i data-lucide="download"></i>
+            Download JSON
+          </button>
+          <button id="mine-again" class="btn-ghost-sm">Mine Another</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toasts" class="toast-stack"></div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

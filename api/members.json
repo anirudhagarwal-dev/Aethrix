@@ -1,0 +1,15 @@
+[
+  {
+    "index": 1,
+    "data": {
+      "name": "Anirudh Agarwal",
+      "branch": "CSE",
+      "githubID": "anirudhagarwal-dev",
+      "url": "https://github.com/anirudhagarwal-dev",
+      "about": "Systems architect & full-stack Web3 builder. Love working on Zero-Knowledge proofs, custom consensus modules, and Rust."
+    },
+    "selfHash": "537fe8f9cba74dafd7151765042ee9a15f79c72f7a95034f4684c13cfa2783ba",
+    "prevHash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "chainHash": "a28736a22f8a264006e68ae9d2a25a9185898e609682bcdcf93159d0c19d3edb"
+  }
+]

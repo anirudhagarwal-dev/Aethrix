@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "BRLTraineeProfile",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 50,
+      "description": "Your full name"
+    },
+    "branch": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 50,
+      "description": "Your academic branch (e.g. CSE, CSE-AIML, CS-IT, ECE)"
+    },
+    "githubID": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9](?:[a-zA-Z0-9]|-(?=[a-zA-Z0-9])){0,38}$",
+      "description": "Your GitHub username (without @)"
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Your GitHub profile URL"
+    },
+    "about": {
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 200,
+      "description": "A short bio about yourself"
+    }
+  },
+  "required": [
+    "name",
+    "branch",
+    "githubID",
+    "url",
+    "about"
+  ],
+  "additionalProperties": false
+}
