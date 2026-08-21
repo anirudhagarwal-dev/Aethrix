@@ -198,6 +198,8 @@ let isAutoRotate = true;
 let raf3D = null;
 let raycaster3 = new THREE.Raycaster();
 let mouse3 = new THREE.Vector2();
+let sceneVault, cameraVault, rendererVault, torusKnotMeshVault, materialVault;
+let rafVault = null;
 const _labelVec = new THREE.Vector3();
 let hoveredMesh = null;
 
@@ -215,9 +217,14 @@ async function boot() {
   try {
     init3D();
   } catch (err) {
-    // 3D is a progressive enhancement — never let a WebGL/shader failure take
-    // down the rest of the page. Surface the real reason instead of a black canvas.
+    
+    
     console.error('[Aethrix] 3D chain failed to initialize:', err);
+  }
+  try {
+    initVault3D();
+  } catch (err) {
+    console.error('[Aethrix] 3D vault background failed to initialize:', err);
   }
 }
 
@@ -643,33 +650,33 @@ window.copyId = function (id) {
   navigator.clipboard.writeText(el.textContent).then(() => toast('Copied!', 'ok'));
 };
 
-// Scrolling up quickly through the member list used to blow straight past the
-// vault/hero boundary and dump the reader back into the 3D scene. This acts as a
-// speed breaker: momentum scrolling is pinned at the top of the list, and the
-// hero is only revealed once the user pauses and scrolls again deliberately.
-// Wheel over the hero drives the camera instead of scrolling the page. One
-// scroll moves both orbit radius and polar angle, so the view sweeps between
-// "close and top-down" and "pulled back and level with the ring". Leaving the
-// hero is deliberate — only the scroll-cue arrow navigates to the vault.
+
+
+
+
+
+
+
+
 function initHeroScrollCamera() {
   const hero = document.getElementById('hero');
   if (!hero) return;
 
   const sph = new THREE.Spherical();
   const off = new THREE.Vector3();
-  const MIN_R = 150;      // close in, ring fills the frame
-  const MAX_R = 430;      // pulled back, whole ring small
-  const MIN_PHI = 0.30;   // steep top-down look
-  const MAX_PHI = 1.52;   // almost level with the ring
+  const MIN_R = 150;      
+  const MAX_R = 430;      
+  const MIN_PHI = 0.30;   
+  const MAX_PHI = 1.52;   
   const SENS_R = 0.25;
   const SENS_PHI = 0.0005;
 
   const inHero = () => window.scrollY < hero.offsetHeight * 0.6;
 
-  // Returning from the vault used to leave the camera wherever the upward flick
-  // shoved it: those wheel events land the moment we cross back into the hero,
-  // so a fast scroll pinned the view at MIN_R/MIN_PHI. Snap back to the default
-  // framing on re-entry and swallow the rest of that gesture while it settles.
+  
+  
+  
+  
   let wasInHero = true;
   let settleUntil = 0;
 
@@ -677,7 +684,7 @@ function initHeroScrollCamera() {
     const now = inHero();
     if (now && !wasInHero) {
       reset3DCamera();
-      settleUntil = performance.now() + 1000;   // covers the 900ms reset tween
+      settleUntil = performance.now() + 1000;   
     }
     wasInHero = now;
   }, { passive: true });
@@ -690,9 +697,9 @@ function initHeroScrollCamera() {
 
     if (performance.now() < settleUntil) return;
 
-    // OrbitControls.update() rebuilds its spherical state from the camera each
-    // frame, so writing the position directly is enough - damping/auto-rotate
-    // pick the new angle up on the next tick.
+    
+    
+    
     off.subVectors(camera3.position, controls3.target);
     sph.setFromVector3(off);
     sph.radius = Math.min(Math.max(sph.radius + e.deltaY * SENS_R, MIN_R), MAX_R);
@@ -740,9 +747,19 @@ function bindEvents() {
   window.addEventListener('resize', () => {
     if (renderer3) {
       const c = document.getElementById('chain-canvas-3d');
-      renderer3.setSize(c.clientWidth, c.clientHeight);
-      camera3.aspect = c.clientWidth / c.clientHeight;
-      camera3.updateProjectionMatrix();
+      if (c) {
+        renderer3.setSize(c.clientWidth, c.clientHeight);
+        camera3.aspect = c.clientWidth / c.clientHeight;
+        camera3.updateProjectionMatrix();
+      }
+    }
+    if (rendererVault) {
+      const c = document.getElementById('vault-canvas-3d');
+      if (c) {
+        rendererVault.setSize(c.clientWidth, c.clientHeight);
+        cameraVault.aspect = c.clientWidth / c.clientHeight;
+        cameraVault.updateProjectionMatrix();
+      }
     }
   });
 }
@@ -766,9 +783,9 @@ function init3D() {
   controls3.dampingFactor = 0.04;
   controls3.autoRotate = isAutoRotate;
   controls3.autoRotateSpeed = 0.25;
-  // OrbitControls grabs the wheel event and preventDefault()s it, so scrolling
-  // over the hero zoomed the camera instead of scrolling the page. Drag still
-  // rotates; the wheel now belongs to the document.
+  
+  
+  
   controls3.enableZoom = false;
   controls3.maxDistance = 520;
   controls3.minDistance = 30;
@@ -834,9 +851,9 @@ function buildGlassChain() {
   const RADIUS = Math.max(110, N * 26 / (2 * Math.PI));
   const angleStep = (2 * Math.PI) / N;
 
-  // Spin rate scales with the size of the batch: a 3-block ring reads as static
-  // at the speed a 37-block ring wants, and a big ring whips past at the speed a
-  // small one needs. 1/sqrt(N) keeps the perceived motion even as PRs land.
+  
+  
+  
   if (controls3) {
     controls3.autoRotateSpeed = Math.min(Math.max(1.5 / Math.sqrt(Math.max(N, 1)), 0.15), 1.1);
   }
@@ -851,6 +868,7 @@ function buildGlassChain() {
   });
   const genesis = new THREE.Mesh(gGeo, gMat);
   genesis.position.set(0, 0, 0);
+  genesis.userData = { isGenesis: true };
   const gWireMat = new THREE.MeshBasicMaterial({
     color: 0x7ff4ff, wireframe: true, transparent: true, opacity: 0.95
   });
@@ -864,14 +882,16 @@ function buildGlassChain() {
   const gHalo = new THREE.Sprite(gHaloMat);
   gHalo.scale.set(96, 96, 1);
 
-  const gLabel = makeTextSprite('GENESIS');
-  gLabel.position.set(0, -28, 0);
-  gLabel.scale.set(17, 4.6, 1);
-  gLabel.material.opacity = 0.55;
+  const textureLoader = new THREE.TextureLoader();
+  const logoTexture = textureLoader.load('BRL_logo_trans.png');
+  const logoMat = new THREE.SpriteMaterial({ map: logoTexture, transparent: true, depthWrite: false });
+  const logoSprite = new THREE.Sprite(logoMat);
+  logoSprite.position.set(0, 0, 0);
+  logoSprite.scale.set(22, 22, 1);
 
   const genesisLight = new THREE.PointLight(0x0088ff, 4.0, 300);
   genesisLight.position.set(0, 0, 0);
-  scene3.add(genesisLight, gHalo, genesis, gWire, gLabel);
+  scene3.add(genesisLight, gHalo, genesis, gWire, logoSprite);
   blocks3D.push({ group: { position: new THREE.Vector3(0, 0, 0) }, mesh: genesis, wire: gWire, isGenesis: true });
 
   const ringPositions = [];
@@ -885,10 +905,10 @@ function buildGlassChain() {
     const group = new THREE.Group();
     group.position.copy(pos);
 
-    // NOTE: high `transmission` on MeshPhysicalMaterial needs an environment map to
-    // pick up any color — without one the faces solve to near-black, which made the
-    // front-most blocks read as solid dark boxes. Keep transmission low and let the
-    // emissive + opacity carry the "glowing glass" look instead.
+    
+    
+    
+    
     const boxMat = new THREE.MeshPhysicalMaterial({
       color: 0x9fe8ff, roughness: 0.12, metalness: 0.0,
       transmission: 0.0, opacity: 0.42, transparent: true,
@@ -918,10 +938,10 @@ function buildGlassChain() {
     ring.rotation.x = Math.PI / 3.5;
     group.add(ring);
 
-    // NOTE: per-block PointLights removed. 1 light per block (+1 per packet)
-    // pushed the scene to 76 dynamic lights, which exceeds the fragment-shader
-    // uniform limit on integrated/laptop GPUs and makes the whole canvas render
-    // black. The blocks already glow via their emissive material below.
+    
+    
+    
+    
 
     group.userData = { blockIdx: idx };
     scene3.add(group);
@@ -989,8 +1009,8 @@ function buildConduit(from, to) {
     new THREE.SphereGeometry(1.8, 12, 12),
     new THREE.MeshBasicMaterial({ color: 0x00ffff })
   );
-  // per-packet PointLight removed for the same GPU light-limit reason; the
-  // packet uses an unlit MeshBasicMaterial so it stays bright on its own.
+  
+  
   scene3.add(pkt);
   packets3D.push({ mesh: pkt, curve, t: Math.random(), speed: 0.006 + Math.random() * 0.005 });
 }
@@ -1018,9 +1038,9 @@ function loop3D() {
     p.mesh.position.copy(p.curve.getPointAt(p.t));
   });
 
-  // Labels draw with depthTest off, so without this the far side of the ring
-  // renders a wall of overlapping names. Fade them out with distance and drop
-  // the ones behind the genesis entirely.
+  
+  
+  
   const camDist = camera3.position.length();
   labelSprites.forEach(s => {
     s.getWorldPosition(_labelVec);
@@ -1044,6 +1064,7 @@ function getClickedBlock(e) {
     let obj = hit.object;
     while (obj && obj !== scene3) {
       if (obj.userData && obj.userData.blockIdx !== undefined) return obj;
+      if (obj.userData && obj.userData.isGenesis) return obj;
       obj = obj.parent;
     }
   }
@@ -1052,10 +1073,22 @@ function getClickedBlock(e) {
 
 let currentHoveredBlockIdx = -1;
 
-// Hovering a block lifts it, brightens the glass and lights up its wireframe /
-// ring so the cursor target is obvious against a ring of 37 near-identical cubes.
+
+
 function setBlockHighlight(group, on) {
   if (!group) return;
+  if (group.userData && group.userData.isGenesis) {
+    const s = on ? 1.15 : 1;
+    group.scale.set(s, s, s);
+    group.material.emissiveIntensity = on ? 2.5 : 1.25;
+    group.material.opacity = on ? 0.8 : 0.5;
+    const rec = blocks3D[0];
+    if (rec && rec.wire) {
+        rec.wire.scale.set(s, s, s);
+        rec.wire.material.color.setHex(on ? 0xffffff : 0x7ff4ff);
+    }
+    return;
+  }
   const s = on ? 1.14 : 1;
   group.scale.set(s, s, s);
   const rec = blocks3D.find(b => b.group === group);
@@ -1160,13 +1193,19 @@ function positionHeroProfileCard(x, y) {
 
 function onClick3D(e) {
   const hit = getClickedBlock(e);
-  if (hit !== null && hit.userData.blockIdx !== undefined) {
-    hideHeroProfileCard();
-    const idx = hit.userData.blockIdx;
-    zoomToBlock(idx, () => {
-      document.getElementById('vault').scrollIntoView({ behavior: 'smooth' });
-      openInspector(idx);
-    });
+  if (hit !== null) {
+    if (hit.userData.isGenesis) {
+      window.open('https://brl.akgec.ac.in/', '_blank');
+      return;
+    }
+    if (hit.userData.blockIdx !== undefined) {
+      hideHeroProfileCard();
+      const idx = hit.userData.blockIdx;
+      zoomToBlock(idx, () => {
+        document.getElementById('vault').scrollIntoView({ behavior: 'smooth' });
+        openInspector(idx);
+      });
+    }
   }
 }
 
@@ -1222,4 +1261,190 @@ function reset3DCamera() {
   new TWEEN.Tween(controls3.target)
     .to({ x: 0, y: -4, z: 0 }, 900)
     .easing(TWEEN.Easing.Cubic.Out).start();
+}
+
+function initVault3D() {
+  const canvas = document.getElementById('vault-canvas-3d');
+  if (!canvas) return;
+
+  const W = canvas.clientWidth || window.innerWidth;
+  const H = canvas.clientHeight || window.innerHeight;
+
+  sceneVault = new THREE.Scene();
+
+  cameraVault = new THREE.PerspectiveCamera(45, W / H, 0.1, 100);
+  cameraVault.position.set(0, 0, 8);
+
+  rendererVault = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: "high-performance" });
+  rendererVault.setSize(W, H);
+  rendererVault.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+  sceneVault.add(ambientLight);
+
+  const spotLight1 = new THREE.SpotLight(0x00ccff, 1.5);
+  spotLight1.position.set(10, 10, 10);
+  sceneVault.add(spotLight1);
+
+  const spotLight2 = new THREE.SpotLight(0x0057ff, 1);
+  spotLight2.position.set(-10, -10, -10);
+  sceneVault.add(spotLight2);
+
+  const geometry = new THREE.TorusKnotGeometry(2, 0.6, 128, 32);
+
+  materialVault = new THREE.MeshPhysicalMaterial({
+    color: new THREE.Color("#00aaff"),
+    clearcoat: 1.0,
+    clearcoatRoughness: 0.1,
+    metalness: 0.8,
+    roughness: 0.2,
+  });
+
+  const simplexNoiseGLSL = `
+    vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+    vec4 mod289(vec4 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+    vec4 permute(vec4 x) { return mod289(((x*34.0)+1.0)*x); }
+    vec4 taylorInvSqrt(vec4 r) { return 1.79284291400159 - 0.85373472095314 * r; }
+    
+    float snoise(vec3 v) { 
+      const vec2  C = vec2(1.0/6.0, 1.0/3.0) ;
+      const vec4  D = vec4(0.0, 0.5, 1.0, 2.0);
+    
+      vec3 i  = floor(v + dot(v, C.yyy) );
+      vec3 x0 =   v - i + dot(i, C.xxx) ;
+    
+      vec3 g = step(x0.yzx, x0.xyz);
+      vec3 l = 1.0 - g;
+      vec3 i1 = min( g.xyz, l.zxy );
+      vec3 i2 = max( g.xyz, l.zxy );
+    
+      vec3 x1 = x0 - i1 + C.xxx;
+      vec3 x2 = x0 - i2 + C.yyy;
+      vec3 x3 = x0 - D.yyy;
+    
+      i = mod289(i); 
+      vec4 p = permute( permute( permute( 
+                 i.z + vec4(0.0, i1.z, i2.z, 1.0 ))
+               + i.y + vec4(0.0, i1.y, i2.y, 1.0 )) 
+               + i.x + vec4(0.0, i1.x, i2.x, 1.0 ));
+    
+      float n_ = 0.142857142857;
+      vec3  ns = n_ * D.wyz - D.xzx;
+    
+      vec4 j = p - 49.0 * floor(p * ns.z);
+    
+      vec4 x_ = floor(j * ns.z);
+      vec4 y_ = floor(j - 7.0 * x_ );
+    
+      vec4 x = x_ *ns.x + ns.yyyy;
+      vec4 y = y_ *ns.x + ns.yyyy;
+      vec4 h = 1.0 - abs(x) - abs(y);
+    
+      vec4 b0 = vec4( x.xy, y.xy );
+      vec4 b1 = vec4( x.zw, y.zw );
+    
+      vec4 s0 = floor(b0)*2.0 + 1.0;
+      vec4 s1 = floor(b1)*2.0 + 1.0;
+      vec4 sh = -step(h, vec4(0.0));
+    
+      vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy ;
+      vec4 a1 = b1.xzyw + s1.xzyw*sh.zzww ;
+    
+      vec3 p0 = vec3(a0.xy,h.x);
+      vec3 p1 = vec3(a0.zw,h.y);
+      vec3 p2 = vec3(a1.xy,h.z);
+      vec3 p3 = vec3(a1.zw,h.w);
+    
+      vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2, p2), dot(p3,p3)));
+      p0 *= norm.x;
+      p1 *= norm.y;
+      p2 *= norm.z;
+      p3 *= norm.w;
+    
+      vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);
+      m = m * m;
+      return 42.0 * dot( m*m, vec4( dot(p0,x0), dot(p1,x1), 
+                                    dot(p2,x2), dot(p3,x3) ) );
+    }
+  `;
+
+  materialVault.onBeforeCompile = (shader) => {
+    shader.uniforms.uTime = { value: 0 };
+    shader.uniforms.uSpeed = { value: 0.3 };
+    shader.uniforms.uDistort = { value: 0.4 };
+    
+    materialVault.userData.shader = shader;
+    
+    shader.vertexShader = `
+      uniform float uTime;
+      uniform float uSpeed;
+      uniform float uDistort;
+    ` + simplexNoiseGLSL + "\n" + shader.vertexShader;
+    
+    shader.vertexShader = shader.vertexShader.replace(
+      '#include <begin_vertex>',
+      `
+        float noiseVal = snoise(position * 0.45 + vec3(0.0, 0.0, uTime * uSpeed));
+        vec3 transformed = position + normal * noiseVal * uDistort;
+      `
+    );
+  };
+
+  try {
+    const pmremGenerator = new THREE.PMREMGenerator(rendererVault);
+    pmremGenerator.compileEquirectangularShader();
+    
+    const envScene = new THREE.Scene();
+    const sphereGeo = new THREE.SphereGeometry(1, 16, 16);
+    
+    const mesh1 = new THREE.Mesh(sphereGeo, new THREE.MeshBasicMaterial({ color: 0x00ccff }));
+    mesh1.position.set(5, 5, 5);
+    envScene.add(mesh1);
+    
+    const mesh2 = new THREE.Mesh(sphereGeo, new THREE.MeshBasicMaterial({ color: 0x0057ff }));
+    mesh2.position.set(-5, -5, -5);
+    envScene.add(mesh2);
+    
+    const mesh3 = new THREE.Mesh(sphereGeo, new THREE.MeshBasicMaterial({ color: 0x00ffee }));
+    mesh3.position.set(0, 8, -2);
+    envScene.add(mesh3);
+
+    const renderTarget = pmremGenerator.fromScene(envScene);
+    materialVault.envMap = renderTarget.texture;
+    materialVault.envMapIntensity = 0.8;
+  } catch (err) {
+    console.warn('[Aethrix] Failed to compile PMREM environment map for vault:', err);
+  }
+
+  torusKnotMeshVault = new THREE.Mesh(geometry, materialVault);
+  sceneVault.add(torusKnotMeshVault);
+
+  loopVault3D();
+}
+
+function loopVault3D() {
+  rafVault = requestAnimationFrame(loopVault3D);
+
+  if (torusKnotMeshVault) {
+    const time = performance.now() * 0.001;
+
+    torusKnotMeshVault.rotation.y = time * 0.1;
+    torusKnotMeshVault.rotation.x = time * 0.05;
+
+    const speed = 2.0;
+    const floatIntensity = 0.3;
+    const rotationIntensity = 0.15;
+
+    torusKnotMeshVault.position.y = Math.sin(time * speed) * floatIntensity;
+    torusKnotMeshVault.position.x = Math.cos(time * speed * 0.5) * (floatIntensity * 0.5);
+    torusKnotMeshVault.rotation.z = Math.cos(time * speed) * rotationIntensity;
+
+    if (materialVault.userData.shader) {
+      materialVault.userData.shader.uniforms.uTime.value = time;
+    }
+  }
+
+  if (rendererVault && sceneVault && cameraVault) {
+    rendererVault.render(sceneVault, cameraVault);
+  }
 }
