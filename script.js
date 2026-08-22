@@ -747,7 +747,7 @@ function bindEvents() {
   window.addEventListener('resize', () => {
     if (renderer3) {
       const c = document.getElementById('chain-canvas-3d');
-      if (c) {
+      if (c && c.clientWidth > 0 && c.clientHeight > 0) {
         renderer3.setSize(c.clientWidth, c.clientHeight);
         camera3.aspect = c.clientWidth / c.clientHeight;
         camera3.updateProjectionMatrix();
@@ -755,7 +755,7 @@ function bindEvents() {
     }
     if (rendererVault) {
       const c = document.getElementById('vault-canvas-3d');
-      if (c) {
+      if (c && c.clientWidth > 0 && c.clientHeight > 0) {
         rendererVault.setSize(c.clientWidth, c.clientHeight);
         cameraVault.aspect = c.clientWidth / c.clientHeight;
         cameraVault.updateProjectionMatrix();
@@ -1017,6 +1017,8 @@ function buildConduit(from, to) {
 
 function loop3D() {
   raf3D = requestAnimationFrame(loop3D);
+  const c = document.getElementById('chain-canvas-3d');
+  if (!c || c.clientHeight === 0 || c.clientWidth === 0) return;
   TWEEN.update();
   if (controls3) controls3.update();
 
@@ -1370,8 +1372,8 @@ function initVault3D() {
 
   materialVault.onBeforeCompile = (shader) => {
     shader.uniforms.uTime = { value: 0 };
-    shader.uniforms.uSpeed = { value: 0.3 };
-    shader.uniforms.uDistort = { value: 0.4 };
+    shader.uniforms.uSpeed = { value: 0.001 };
+    shader.uniforms.uDistort = { value: 0.012 };
     
     materialVault.userData.shader = shader;
     
@@ -1428,12 +1430,12 @@ function loopVault3D() {
   if (torusKnotMeshVault) {
     const time = performance.now() * 0.001;
 
-    torusKnotMeshVault.rotation.y = time * 0.1;
-    torusKnotMeshVault.rotation.x = time * 0.05;
+    torusKnotMeshVault.rotation.y = time * 0.015;
+    torusKnotMeshVault.rotation.x = time * 0.008;
 
-    const speed = 2.0;
-    const floatIntensity = 0.3;
-    const rotationIntensity = 0.15;
+    const speed = 0.25;
+    const floatIntensity = 0.08;
+    const rotationIntensity = 0.03;
 
     torusKnotMeshVault.position.y = Math.sin(time * speed) * floatIntensity;
     torusKnotMeshVault.position.x = Math.cos(time * speed * 0.5) * (floatIntensity * 0.5);
