@@ -623,9 +623,11 @@ function downloadJSON(content, filename) {
 
 function showBackdrop() {
   document.getElementById('backdrop').classList.remove('hidden');
+  document.body.classList.add('lock-scroll');
 }
 function hideBackdrop() {
   document.getElementById('backdrop').classList.add('hidden');
+  document.body.classList.remove('lock-scroll');
 }
 
 function toast(msg, type = '') {
