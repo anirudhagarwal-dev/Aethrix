@@ -2,6 +2,19 @@
   {
     "index": 1,
     "data": {
+      "name": "Aditya Gaur",
+      "branch": "IT",
+      "githubID": "adityaz26",
+      "url": "https://github.com/adityaz26",
+      "about": "I am a passionate and enthusiastic individual with a strong interest in technology and innovation. I enjoy exploring new ideas, learning new skills, and collaborating with others to create solutions."
+    },
+    "selfHash": "389b6854215d95f9cce0cc95d26286403ea79d4c09e4766acbda35f8e8f8e40a",
+    "prevHash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "chainHash": "16599acc7d3b269fcff57e84b9a7894aab735af5e33cff5bbd79bda058464e68"
+  },
+  {
+    "index": 2,
+    "data": {
       "name": "Anirudh Agarwal",
       "branch": "CSE",
       "githubID": "anirudhagarwal-dev",
@@ -9,7 +22,7 @@
       "about": "Systems architect & full-stack Web3 builder. Love working on Zero-Knowledge proofs, custom consensus modules, and Rust."
     },
     "selfHash": "537fe8f9cba74dafd7151765042ee9a15f79c72f7a95034f4684c13cfa2783ba",
-    "prevHash": "0000000000000000000000000000000000000000000000000000000000000000",
-    "chainHash": "a28736a22f8a264006e68ae9d2a25a9185898e609682bcdcf93159d0c19d3edb"
+    "prevHash": "16599acc7d3b269fcff57e84b9a7894aab735af5e33cff5bbd79bda058464e68",
+    "chainHash": "d881cb4ed174dfb418d9ac6915b92861ddd4a8e1b9c134f8f570193d914271e3"
   }
 ]
