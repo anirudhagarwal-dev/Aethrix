@@ -1,0 +1,14 @@
+{
+  "name": "aethrix",
+  "version": "1.0.0",
+  "description": "BRL Trainees '26 Profile Directory and Cryptographic Chain Explorer",
+  "main": "index.html",
+  "scripts": {
+    "build": "node scripts/build.js",
+    "dev": "node scripts/build.js && python -m http.server 5173",
+    "start": "node scripts/build.js && python -m http.server 5173"
+  },
+  "devDependencies": {
+    "vite": "^5.4.2"
+  }
+}
