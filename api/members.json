@@ -3,14 +3,14 @@
     "index": 1,
     "data": {
       "name": "Aayushi Agarwal",
-      "branch": "CSE(H) (e.g. CSE-AIML)",
+      "branch": "CSE(H)",
       "githubID": "aayushiag27",
       "url": "https://github.com/aayushiag27",
       "about": " I am a passionate coder and love to explore new technologies. I am currently learning web development and looking forward to contributing to open source projects. "
     },
-    "selfHash": "0946c049f30189f34aec325499ee163f7e9bb9a854fa3ebc436a205c7fee748b",
+    "selfHash": "37864c48a1d129e37dc7440ae91dd8cf6a3f8fffdc7d5e5f49689377066269bf",
     "prevHash": "0000000000000000000000000000000000000000000000000000000000000000",
-    "chainHash": "72bf92d9fa98d9a8b71e2de2da4d0569b0616efcd53d065371685c8e68a95cb0"
+    "chainHash": "bc600f4dcd599a9cf9be925fbb1cbe9724ab62dd1dbfd98bc768ab81b9723130"
   },
   {
     "index": 2,
@@ -22,8 +22,8 @@
       "about": "ashu us hardworKING"
     },
     "selfHash": "d210dcec455a1041e1692ed7ec8234c5391aa9847e23a55a33ad91ce0ce27b9a",
-    "prevHash": "72bf92d9fa98d9a8b71e2de2da4d0569b0616efcd53d065371685c8e68a95cb0",
-    "chainHash": "c5cd95282ffea07b6da22ff76e9d0c8d195cf5699d9c59bc2c12d9b4a0e866c6"
+    "prevHash": "bc600f4dcd599a9cf9be925fbb1cbe9724ab62dd1dbfd98bc768ab81b9723130",
+    "chainHash": "6d0ceff8ba1caed34d86587daa3b5c912a0efdc5ba66cb27271c558bebff6b6a"
   },
   {
     "index": 3,
@@ -35,8 +35,8 @@
       "about": "Hey I am App Developer and a competitive programmer. I love to explore new technologies and learn new things."
     },
     "selfHash": "38b1211b8537e4f482fc7e14ac599265425d0703b3212ead1d93827535d9a3d0",
-    "prevHash": "c5cd95282ffea07b6da22ff76e9d0c8d195cf5699d9c59bc2c12d9b4a0e866c6",
-    "chainHash": "9147201ad11a55a1432dba6279e208cec78a076b1c04ca7eda93f13956bf33d8"
+    "prevHash": "6d0ceff8ba1caed34d86587daa3b5c912a0efdc5ba66cb27271c558bebff6b6a",
+    "chainHash": "cc7dcc5e5adefcee9475947e13701f00cd2899540cbb8626cc26f9e1fc6c1c03"
   },
   {
     "index": 4,
@@ -48,8 +48,8 @@
       "about": "Hi! There, I am Kumar Shreyash."
     },
     "selfHash": "7ce2c10e012310ced33970f419f5e579cb294836d9af412d743c9a76dcd24730",
-    "prevHash": "9147201ad11a55a1432dba6279e208cec78a076b1c04ca7eda93f13956bf33d8",
-    "chainHash": "ce91efbb17e43b732173014bd2142c056afc0995e5384c70659b49be9a2f1c5c"
+    "prevHash": "cc7dcc5e5adefcee9475947e13701f00cd2899540cbb8626cc26f9e1fc6c1c03",
+    "chainHash": "ed56608ed11c720506a2cd3b4c5c0d42bf49f5c3a4f23c93458c5ac661052e5b"
   },
   {
     "index": 5,
@@ -61,8 +61,8 @@
       "about": "love playing chess only when i am winning."
     },
     "selfHash": "b12cdd1c7dd969db5449e896e3f268c47e473f92d7d3b2bc2aa6f5a3f8661005",
-    "prevHash": "ce91efbb17e43b732173014bd2142c056afc0995e5384c70659b49be9a2f1c5c",
-    "chainHash": "cedaa62b369a09556ed9f05d6178beeab1ad7479e1107efeab1bbe4a8de52977"
+    "prevHash": "ed56608ed11c720506a2cd3b4c5c0d42bf49f5c3a4f23c93458c5ac661052e5b",
+    "chainHash": "e77c3619b8eb299989a51df257803f5d1cd0af09fb7211140b4daf62605ba47c"
   },
   {
     "index": 6,
@@ -74,7 +74,7 @@
       "about": "i am nisheet"
     },
     "selfHash": "46460325f7be31b09099fa73f99a566a331b2dcccfffe1185c515b33d5ddc9eb",
-    "prevHash": "cedaa62b369a09556ed9f05d6178beeab1ad7479e1107efeab1bbe4a8de52977",
-    "chainHash": "f317288c620f014e637156ccc2ed6f8b9fd647ae69877fe02c4ce4914a66a07d"
+    "prevHash": "e77c3619b8eb299989a51df257803f5d1cd0af09fb7211140b4daf62605ba47c",
+    "chainHash": "2eda459d07fe2c026d9d80de525b45ff0a22eaa5f894d838ad35b113d2bb8248"
   }
 ]
