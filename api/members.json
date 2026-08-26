@@ -2,6 +2,19 @@
   {
     "index": 1,
     "data": {
+      "name": "Aayushi Agarwal",
+      "branch": "CSE(H) (e.g. CSE-AIML)",
+      "githubID": "aayushiag27",
+      "url": "https://github.com/aayushiag27",
+      "about": " I am a passionate coder and love to explore new technologies. I am currently learning web development and looking forward to contributing to open source projects. "
+    },
+    "selfHash": "0946c049f30189f34aec325499ee163f7e9bb9a854fa3ebc436a205c7fee748b",
+    "prevHash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "chainHash": "72bf92d9fa98d9a8b71e2de2da4d0569b0616efcd53d065371685c8e68a95cb0"
+  },
+  {
+    "index": 2,
+    "data": {
       "name": "chinmoy",
       "branch": "CS",
       "githubID": "imChinmoy",
@@ -9,11 +22,11 @@
       "about": "Hey I am App Developer and a competitive programmer. I love to explore new technologies and learn new things."
     },
     "selfHash": "38b1211b8537e4f482fc7e14ac599265425d0703b3212ead1d93827535d9a3d0",
-    "prevHash": "0000000000000000000000000000000000000000000000000000000000000000",
-    "chainHash": "0aedc89ccf080e9319fc5c0f33bd9c1235ec3793a0919464f71f38bfb02a3bae"
+    "prevHash": "72bf92d9fa98d9a8b71e2de2da4d0569b0616efcd53d065371685c8e68a95cb0",
+    "chainHash": "5ed015eaed4c9c824eddeb930d4d1802a1b12186ecaa0e422db5eb4611ee63da"
   },
   {
-    "index": 2,
+    "index": 3,
     "data": {
       "name": "nisheet verma",
       "branch": "cse",
@@ -22,7 +35,7 @@
       "about": "i am nisheet"
     },
     "selfHash": "46460325f7be31b09099fa73f99a566a331b2dcccfffe1185c515b33d5ddc9eb",
-    "prevHash": "0aedc89ccf080e9319fc5c0f33bd9c1235ec3793a0919464f71f38bfb02a3bae",
-    "chainHash": "5a6194d455f17a12ae90d3bcf2f9c5fc991ae7d0770daf5f03e764466681604c"
+    "prevHash": "5ed015eaed4c9c824eddeb930d4d1802a1b12186ecaa0e422db5eb4611ee63da",
+    "chainHash": "9b5fa1fe4f3f45de730292f22597d5807c72edaf6487ad3ce0b1f346d86d0a03"
   }
 ]
