@@ -1,191 +1,3 @@
-const MOCK_MEMBERS = [
-  {
-    name: "Devansh Kapoor", branch: "CSE-AIML", githubID: "devansh-kapoor-web3",
-    url: "https://github.com/devansh-kapoor-web3",
-    about: "Web3 developer exploring DeFi protocols, automated market makers, and liquidity pools."
-  },
-  {
-    name: "Aarav Sen", branch: "CSE", githubID: "aarav-sen-zk",
-    url: "https://github.com/aarav-sen-zk",
-    about: "Systems architect & full-stack Web3 builder. Love Zero-Knowledge proofs, custom consensus modules, and Rust."
-  },
-  {
-    name: "Rohan Gupta", branch: "CS-IT", githubID: "rohan-gupta-dev",
-    url: "https://github.com/rohan-gupta-dev",
-    about: "Mobile dev pivoting to Web3. Interested in Solana smart contracts and decentralized mobile apps."
-  },
-  {
-    name: "Aryan Verma", branch: "CSE-AIML", githubID: "aryan-verma-dev",
-    url: "https://github.com/aryan-verma-dev",
-    about: "ML engineer exploring federated learning and on-chain AI model verification pipelines."
-  },
-  {
-    name: "Priya Sharma", branch: "ECE", githubID: "priya-sharma-web3",
-    url: "https://github.com/priya-sharma-web3",
-    about: "Hardware enthusiast building IoT-blockchain bridges and DePIN sensor networks."
-  },
-  {
-    name: "Rohit Mehra", branch: "CSE", githubID: "rohit-mehra-0x",
-    url: "https://github.com/rohit-mehra-0x",
-    about: "DeFi protocol researcher with focus on AMM design and MEV protection strategies."
-  },
-  {
-    name: "Sneha Gupta", branch: "IT", githubID: "sneha-gupta-nft",
-    url: "https://github.com/sneha-gupta-nft",
-    about: "Creative technologist building generative NFT art systems and on-chain provenance tools."
-  },
-  {
-    name: "Karan Bhatia", branch: "CSE-AIML", githubID: "karan-bhatia-zk",
-    url: "https://github.com/karan-bhatia-zk",
-    about: "ZK circuits developer using Circom and snarkjs to build privacy-preserving voting systems."
-  },
-  {
-    name: "Divya Nair", branch: "CS-IT", githubID: "divya-nair-dao",
-    url: "https://github.com/divya-nair-dao",
-    about: "DAO governance enthusiast studying token-weighted voting and quadratic funding mechanisms."
-  },
-  {
-    name: "Abhimanyu Tiwari", branch: "CSE", githubID: "abhimanyu-tiwari-eth",
-    url: "https://github.com/abhimanyu-tiwari-eth",
-    about: "Full-stack Ethereum developer building Layer 2 rollup bridges and cross-chain messaging."
-  },
-  {
-    name: "Tanvi Kapoor", branch: "IT", githubID: "tanvi-kapoor-sol",
-    url: "https://github.com/tanvi-kapoor-sol",
-    about: "Solana ecosystem builder working on compressed NFTs and token-gated applications."
-  },
-  {
-    name: "Harsh Vardhan", branch: "ECE", githubID: "harsh-vardhan-chain",
-    url: "https://github.com/harsh-vardhan-chain",
-    about: "Cryptography researcher studying lattice-based post-quantum signatures for blockchain systems."
-  },
-  {
-    name: "Isha Malhotra", branch: "CSE-AIML", githubID: "isha-malhotra-ai",
-    url: "https://github.com/isha-malhotra-ai",
-    about: "Building decentralized AI data marketplaces where contributors earn tokens for quality datasets."
-  },
-  {
-    name: "Nikhil Pandey", branch: "CSE", githubID: "nikhil-pandey-defi",
-    url: "https://github.com/nikhil-pandey-defi",
-    about: "Yield optimization strategist building automated vault contracts across multiple DeFi protocols."
-  },
-  {
-    name: "Ritika Joshi", branch: "IT", githubID: "ritika-joshi-web3",
-    url: "https://github.com/ritika-joshi-web3",
-    about: "Front-end Web3 developer specializing in wallet UX and gasless transaction flows using ERC-4337."
-  },
-  {
-    name: "Saurabh Mishra", branch: "CS-IT", githubID: "saurabh-mishra-0x",
-    url: "https://github.com/saurabh-mishra-0x",
-    about: "Cross-chain bridge architect using LayerZero and Wormhole to build omnichain dApps."
-  },
-  {
-    name: "Ananya Singh", branch: "CSE-AIML", githubID: "ananya-singh-nft",
-    url: "https://github.com/ananya-singh-nft",
-    about: "Generative artist and smart contract developer creating fully on-chain SVG NFT collections."
-  },
-  {
-    name: "Varun Saxena", branch: "CSE", githubID: "varun-saxena-rust",
-    url: "https://github.com/varun-saxena-rust",
-    about: "Systems programmer building high-performance EVM execution environments and custom opcodes."
-  },
-  {
-    name: "Pooja Rawat", branch: "IT", githubID: "pooja-rawat-dao",
-    url: "https://github.com/pooja-rawat-dao",
-    about: "Community manager turned developer, building contributor reputation systems using soulbound tokens."
-  },
-  {
-    name: "Akash Dubey", branch: "ECE", githubID: "akash-dubey-depin",
-    url: "https://github.com/akash-dubey-depin",
-    about: "Embedded systems engineer tokenizing real-world sensor data on decentralized physical infrastructure."
-  },
-  {
-    name: "Megha Arora", branch: "CSE-AIML", githubID: "megha-arora-zk",
-    url: "https://github.com/megha-arora-zk",
-    about: "Research-focused developer building ZK-SNARK proofs for private medical data verification."
-  },
-  {
-    name: "Yash Tripathi", branch: "CSE", githubID: "yash-tripathi-eth",
-    url: "https://github.com/yash-tripathi-eth",
-    about: "Smart contract security researcher and competitive auditor focused on reentrancy and flash-loan exploits."
-  },
-  {
-    name: "Neha Chaudhary", branch: "IT", githubID: "neha-chaudhary-sol",
-    url: "https://github.com/neha-chaudhary-sol",
-    about: "Solana program developer building compressed state trees and efficient PDAs for gaming dApps."
-  },
-  {
-    name: "Arjun Chauhan", branch: "CS-IT", githubID: "arjun-chauhan-layer2",
-    url: "https://github.com/arjun-chauhan-layer2",
-    about: "Rollup engineer contributing to ZK-EVM implementations and validity proof generation pipelines."
-  },
-  {
-    name: "Simran Kaur", branch: "CSE-AIML", githubID: "simran-kaur-defi",
-    url: "https://github.com/simran-kaur-defi",
-    about: "Quantitative DeFi analyst building on-chain risk assessment models and liquidation bots."
-  },
-  {
-    name: "Rahul Sharma", branch: "ECE", githubID: "rahul-sharma-iot",
-    url: "https://github.com/rahul-sharma-iot",
-    about: "IoT developer creating tamper-proof supply chain tracking using NFTs and oracle networks."
-  },
-  {
-    name: "Kritika Yadav", branch: "CSE", githubID: "kritika-yadav-nft",
-    url: "https://github.com/kritika-yadav-nft",
-    about: "3D artist and smart contract developer building metaverse-ready interoperable avatar systems."
-  },
-  {
-    name: "Devesh Pathak", branch: "IT", githubID: "devesh-pathak-chain",
-    url: "https://github.com/devesh-pathak-chain",
-    about: "Backend developer building decentralized identity solutions using DIDs and Verifiable Credentials."
-  },
-  {
-    name: "Anjali Mehta", branch: "CSE-AIML", githubID: "anjali-mehta-ai",
-    url: "https://github.com/anjali-mehta-ai",
-    about: "Exploring intersection of reinforcement learning and on-chain agent economies for autonomous trading."
-  },
-  {
-    name: "Kunal Aggarwal", branch: "CS-IT", githubID: "kunal-aggarwal-sec",
-    url: "https://github.com/kunal-aggarwal-sec",
-    about: "Penetration tester turned Web3 security researcher, specializing in EVM bytecode analysis."
-  },
-  {
-    name: "Pallavi Singh", branch: "ECE", githubID: "pallavi-singh-token",
-    url: "https://github.com/pallavi-singh-token",
-    about: "Tokenomics designer crafting sustainable emission schedules and bonding curve mechanisms for DAOs."
-  },
-  {
-    name: "Vikram Jain", branch: "CSE", githubID: "vikram-jain-cosmos",
-    url: "https://github.com/vikram-jain-cosmos",
-    about: "Cosmos SDK developer building appchains with custom IBC modules for cross-chain asset transfers."
-  },
-  {
-    name: "Trisha Mukherjee", branch: "IT", githubID: "trisha-mukherjee-zk",
-    url: "https://github.com/trisha-mukherjee-zk",
-    about: "Math graduate using PLONK and STARKs to build scalable anonymous credential systems."
-  },
-  {
-    name: "Mohit Bansal", branch: "CSE-AIML", githubID: "mohit-bansal-graph",
-    url: "https://github.com/mohit-bansal-graph",
-    about: "Subgraph developer indexing on-chain events for DeFi analytics dashboards and MEV bots."
-  },
-  {
-    name: "Aditi Rao", branch: "CS-IT", githubID: "aditi-rao-nft",
-    url: "https://github.com/aditi-rao-nft",
-    about: "Music NFT pioneer building royalty-splitting smart contracts and streaming micropayment channels."
-  },
-  {
-    name: "Siddharth Kumar", branch: "ECE", githubID: "siddharth-kumar-eth",
-    url: "https://github.com/siddharth-kumar-eth",
-    about: "Hardware wallet firmware developer ensuring secure key generation and transaction signing at the chip level."
-  },
-  {
-    name: "Bhavna Tomar", branch: "CSE", githubID: "bhavna-tomar-dao",
-    url: "https://github.com/bhavna-tomar-dao",
-    about: "Legal-tech researcher encoding governance frameworks into smart contracts for compliant DAOs."
-  },
-];
-
 let blockchain = [];
 let selectedIdx = -1;
 let isMining = false;
@@ -228,35 +40,15 @@ async function boot() {
   }
 }
 
-const DEV_MOCK = false;
-
 async function loadData() {
-  if (DEV_MOCK) {
-    await buildMockChain();
-    return;
-  }
   try {
     const r = await fetch('api/members.json');
     if (!r.ok) throw new Error();
     blockchain = await r.json();
     verifyChainSilent();
-  } catch {
-    await buildMockChain();
-    toast('Sandbox mode', '');
-  }
-}
-
-async function buildMockChain() {
-  const sorted = [...MOCK_MEMBERS].sort((a, b) =>
-    a.githubID.toLowerCase().localeCompare(b.githubID.toLowerCase()));
-  blockchain = [];
-  let prev = '0'.repeat(64);
-  for (let i = 0; i < sorted.length; i++) {
-    const m = sorted[i];
-    const self = await sha256(canonical(m));
-    const chain = await sha256(self + prev);
-    blockchain.push({ index: i + 1, data: m, selfHash: self, prevHash: prev, chainHash: chain });
-    prev = chain;
+  } catch (err) {
+    blockchain = [];
+    toast('Offline or empty chain', 'err');
   }
 }
 
@@ -477,61 +269,6 @@ function closeInspector() {
   hideBackdrop();
 }
 
-async function verifyBlock() {
-  if (selectedIdx < 0) return;
-  const block = blockchain[selectedIdx];
-
-  const statusEl = document.getElementById('verify-status');
-  const logEl = document.getElementById('verify-log');
-  logEl.innerHTML = '';
-  logEl.classList.remove('hidden');
-  statusEl.className = 'verify-status';
-  statusEl.textContent = 'Verifying…';
-
-  const log = (text, cls = '') => {
-    const line = document.createElement('div');
-    line.className = cls;
-    line.textContent = '› ' + text;
-    logEl.appendChild(line);
-    logEl.scrollTop = logEl.scrollHeight;
-  };
-
-  log('Computing canonical JSON…');
-  const cs = canonical(block.data);
-  await delay(280);
-
-  log('Running SHA-256 (Web Crypto)…');
-  const computedSelf = await sha256(cs);
-  await delay(280);
-  log('Computed:  ' + computedSelf);
-  log('Manifest:  ' + block.selfHash);
-
-  if (computedSelf !== block.selfHash) {
-    log('✗ Self-hash mismatch — block data was altered.', 'vlog-err');
-    statusEl.textContent = '✗ Integrity Failed';
-    statusEl.className = 'verify-status fail';
-    return;
-  }
-  log('✓ Self-hash matches.', 'vlog-ok');
-  await delay(280);
-
-  const computedChain = await sha256(block.selfHash + block.prevHash);
-  log('Chain link: ' + computedChain);
-  log('Manifest:   ' + block.chainHash);
-
-  if (computedChain !== block.chainHash) {
-    log('✗ Chain hash mismatch — ordering broken.', 'vlog-err');
-    statusEl.textContent = '✗ Chain Broken';
-    statusEl.className = 'verify-status fail';
-    return;
-  }
-  log('✓ Chain link verified.', 'vlog-ok');
-  statusEl.textContent = '✓ Block Verified';
-  statusEl.className = 'verify-status ok';
-}
-
-function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
-
 function openMiner() {
   document.getElementById('miner-modal').classList.remove('hidden');
   showBackdrop();
@@ -652,14 +389,6 @@ window.copyId = function (id) {
   navigator.clipboard.writeText(el.textContent).then(() => toast('Copied!', 'ok'));
 };
 
-
-
-
-
-
-
-
-
 function initHeroScrollCamera() {
   const hero = document.getElementById('hero');
   if (!hero) return;
@@ -675,10 +404,6 @@ function initHeroScrollCamera() {
 
   const inHero = () => window.scrollY < hero.offsetHeight * 0.6;
 
-  
-  
-  
-  
   let wasInHero = true;
   let settleUntil = 0;
 
@@ -698,9 +423,6 @@ function initHeroScrollCamera() {
     if (window.scrollY !== 0) window.scrollTo({ top: 0, behavior: 'auto' });
 
     if (performance.now() < settleUntil) return;
-
-    
-    
     
     off.subVectors(camera3.position, controls3.target);
     sph.setFromVector3(off);
@@ -785,9 +507,6 @@ function init3D() {
   controls3.dampingFactor = 0.04;
   controls3.autoRotate = isAutoRotate;
   controls3.autoRotateSpeed = 0.25;
-  
-  
-  
   controls3.enableZoom = false;
   controls3.maxDistance = 520;
   controls3.minDistance = 30;
@@ -907,10 +626,6 @@ function buildGlassChain() {
     const group = new THREE.Group();
     group.position.copy(pos);
 
-    
-    
-    
-    
     const boxMat = new THREE.MeshPhysicalMaterial({
       color: 0x9fe8ff, roughness: 0.12, metalness: 0.0,
       transmission: 0.0, opacity: 0.42, transparent: true,
@@ -939,11 +654,6 @@ function buildGlassChain() {
     }));
     ring.rotation.x = Math.PI / 3.5;
     group.add(ring);
-
-    
-    
-    
-    
 
     group.userData = { blockIdx: idx };
     scene3.add(group);
@@ -1042,9 +752,6 @@ function loop3D() {
     p.mesh.position.copy(p.curve.getPointAt(p.t));
   });
 
-  
-  
-  
   const camDist = camera3.position.length();
   labelSprites.forEach(s => {
     s.getWorldPosition(_labelVec);
@@ -1076,8 +783,6 @@ function getClickedBlock(e) {
 }
 
 let currentHoveredBlockIdx = -1;
-
-
 
 function setBlockHighlight(group, on) {
   if (!group) return;
