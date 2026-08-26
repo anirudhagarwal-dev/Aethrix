@@ -11,5 +11,18 @@
     "selfHash": "38b1211b8537e4f482fc7e14ac599265425d0703b3212ead1d93827535d9a3d0",
     "prevHash": "0000000000000000000000000000000000000000000000000000000000000000",
     "chainHash": "0aedc89ccf080e9319fc5c0f33bd9c1235ec3793a0919464f71f38bfb02a3bae"
+  },
+  {
+    "index": 2,
+    "data": {
+      "name": "nisheet verma",
+      "branch": "cse",
+      "githubID": "NISHEET-V",
+      "url": "https://github.com/NISHEET-V",
+      "about": "i am nisheet"
+    },
+    "selfHash": "46460325f7be31b09099fa73f99a566a331b2dcccfffe1185c515b33d5ddc9eb",
+    "prevHash": "0aedc89ccf080e9319fc5c0f33bd9c1235ec3793a0919464f71f38bfb02a3bae",
+    "chainHash": "5a6194d455f17a12ae90d3bcf2f9c5fc991ae7d0770daf5f03e764466681604c"
   }
 ]
