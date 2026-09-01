@@ -76,5 +76,18 @@
     "selfHash": "46460325f7be31b09099fa73f99a566a331b2dcccfffe1185c515b33d5ddc9eb",
     "prevHash": "e77c3619b8eb299989a51df257803f5d1cd0af09fb7211140b4daf62605ba47c",
     "chainHash": "2eda459d07fe2c026d9d80de525b45ff0a22eaa5f894d838ad35b113d2bb8248"
+  },
+  {
+    "index": 7,
+    "data": {
+      "name": "Prachit Kumar",
+      "branch": "CSE (AI & ML)",
+      "githubID": "prachitkumar-06",
+      "url": "https://github.com/prachitkumar-06",
+      "about": "B.Tech CSE (AI & ML) student interested in programming, artificial intelligence, app development, and open-source contributions."
+    },
+    "selfHash": "140ef23af7625d16f34d951d8e9dce06cc5865c8ed96634e516177d9496f90e4",
+    "prevHash": "2eda459d07fe2c026d9d80de525b45ff0a22eaa5f894d838ad35b113d2bb8248",
+    "chainHash": "70881253122271e5651a508129741cdd5bade468f3545a91c3be72dee9bad334"
   }
 ]
