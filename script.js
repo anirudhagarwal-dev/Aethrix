@@ -904,7 +904,6 @@ function onClick3D(e) {
   const hit = getClickedBlock(e);
   if (hit !== null) {
     if (hit.userData.isGenesis) {
-      window.open('https://brl.akgec.ac.in/', '_blank');
       return;
     }
     if (hit.userData.blockIdx !== undefined) {
